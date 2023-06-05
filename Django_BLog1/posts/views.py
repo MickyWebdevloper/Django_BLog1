@@ -3,18 +3,6 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.http import HttpResponseRedirect, Http404
 from django.contrib import messages
 
-
-
-
-
-
-
-
-
-
-
-
-
 from .forms import PostCreateForm
 from django.urls import reverse
 from .models import Posts
@@ -73,9 +61,22 @@ def post_create(request):
     # else:
 
     form = PostCreateForm(request.POST or None, request.FILES or None)
+
     if form.is_valid():
         instance = form.save(commit=False)
-        # print(form.cleaned_data.get('title'))
+        # print('instance title ->>> ', instance.title)
+        # print('instance content ->>> ', instance.content)
+        # print('instance slug ->>> ', instance.slug)
+        # print('instance user ->>> ', instance.user)
+        # print()
+        # print('finding title  ->>> ', form.cleaned_data.get('title'))
+        # print('..............')
+        # print('instance ->>> ', instance)
+        # print('author checking her  ->>>')
+        # print(request.user.username)
+        instance.user = request.user
+        # print('instance user is ', instance.user)
+        # print('request user is ', request.user)
         instance.save()
         # redirect to a new URL:
         messages.add_message(request, messages.SUCCESS,
@@ -128,7 +129,9 @@ def post_update(request, id=None):
                               instance=instance)
         if form.is_valid():
             instance = form.save(commit=False)
-            # instance.user = request.user # this is not working here
+            instance.user = request.user # this is not working here
+            # print('instance user is ', instance.user)
+            # print('request user is ', request.user)
             instance.save()
             messages.add_message(request, messages.SUCCESS,
                                  'Successfully Updated !')

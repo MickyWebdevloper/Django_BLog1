@@ -11,15 +11,17 @@ from django.conf import settings
 # print()
 # print('U only ', u)
 
-
-User = get_user_model()
-
 # print()
 # print('User only', User)
 
 
+User = get_user_model()
+
+
+
+
 class Posts(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name='title')
     content = models.TextField()
     slug = models.SlugField(
         unique=True, allow_unicode=True, blank=True, null=True)
@@ -30,7 +32,8 @@ class Posts(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='post_user', default=1)
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='post_user',
+        default=1)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -46,3 +49,7 @@ class Posts(models.Model):
 
     def get_absolute_url(self):
         return reverse('posts:post-detail', kwargs={'id': self.pk})
+
+
+
+# 181002317996

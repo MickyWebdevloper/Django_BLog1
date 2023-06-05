@@ -8,3 +8,5 @@ class PostsAdmin(admin.ModelAdmin):
     list_filter = ['title']
     search_fields = ('title', 'content')
     prepopulated_fields = {"slug": ("title",)}
+
+

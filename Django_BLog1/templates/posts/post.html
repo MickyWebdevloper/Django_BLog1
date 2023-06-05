@@ -21,11 +21,19 @@
     
     {% if request.user.is_superuser or request.user.is_superuser %}
         <img src="{{ data.image.url }} " alt="Image"> <br>
-        <h2>{{ data.title | urlify }}</h2>
+        <h2>{{ data.title }}</h2>
+        {% comment %} <h2>{{ data.title | urlify }}</h2> {% endcomment %}
         <p>{{ data.content }}</p>
         <p>{{ data.timestamp }}</p>
         <br>
         Author : {{ data.user.username|title }}
+
+        {% comment %} {{ data.timestamp }} <br>
+        {% if data.user.get_full_name %}
+            Author {{ data.user.get_full_name }}
+        {% else %}
+            Author : {{ data.user.username|title }}
+        {% endif %} {% endcomment %}
         <br>
         <button class="btn">
             <a href='{% url "posts:post-update" data.id %}'>Update Post</a>

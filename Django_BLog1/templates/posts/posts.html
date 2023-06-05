@@ -13,9 +13,11 @@
             {{ data.title }} <br>
         </a>
         {{ data.timestamp }} <br>
-        Author : {{ data.user.username|title }}
-    </h2>
-    <p>{{ data.content |truncatewords:"10" }}</p>
+            {% if data.user.get_full_name %}
+            Author : {{ data.user.get_full_name }}
+        {% else %}
+            Author : {{ data.user.username|title }}
+        {% endif %}
 </div>
 {% endfor %}
 
